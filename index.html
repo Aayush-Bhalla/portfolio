@@ -227,7 +227,7 @@
       .hero-label {
         font-family: "JetBrains Mono";
         font-size: 8.8px;
-        color: #9F8C76;
+        color: #9f8c76;
         letter-spacing: 10px;
         text-transform: uppercase;
         font-weight: 600;
@@ -250,9 +250,9 @@
         font-family: "Playfair Display", sans-serif;
         font-size: 120px;
         letter-spacing: -1px;
-      
+
         font-weight: 400;
-        
+
         color: #ffffff;
         margin: auto 0;
         z-index: 2;
@@ -757,10 +757,18 @@
           font-size: 3.5rem; /* Make the title fit better on small screens */
         }
         .hero::before {
-          background-position: 65% center; /* Adjusts the focal point for portrait screens */
+          background-position: center center !important;
+          background-size: cover; /* Adjusts the focal point for portrait screens */
         }
         .hero {
           padding: 0 20px;
+          height: 65vh;
+        }
+        .hero-middle h1 {
+          font-size: clamp(2rem, 8vw, 3rem);
+          font-weight: 500;
+          white-space: nowrap;
+          letter-spacing: -0.5px;
         }
       }
       /* --- PREVIEW MODAL STYLES --- */
@@ -1236,11 +1244,3 @@
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
