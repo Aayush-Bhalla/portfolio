@@ -227,14 +227,14 @@
       .hero-label {
         font-family: "JetBrains Mono";
         font-size: 8.8px;
-        color: #9f8c76;
+        color: #45321c;
         letter-spacing: 10px;
         text-transform: uppercase;
-        font-weight: 600;
+        font-weight: 900;
       }
       .hero-middle h1 {
         font-family: "Playfair Display", serif;
-        font-size: 90px;
+        font-size: 80px;
         font-weight: 400;
         letter-spacing: -1px;
         color: #ffffff;
@@ -248,7 +248,7 @@
 
       .hero h1 {
         font-family: "Playfair Display", sans-serif;
-        font-size: 90px;
+        font-size: 80px;
         letter-spacing: -1px;
 
         font-weight: 400;
@@ -307,14 +307,14 @@
         position: relative;
         overflow: hidden;
       }
-     .btn-gold {
+      .btn-gold {
         padding: 12px 30px;
         font-size: 0.7rem;
-        background: rgba(241, 179, 46, 0.897); /* Slight glass transparency */
+        background: rgba(20, 17, 11, 0.897); /* Slight glass transparency */
         backdrop-filter: blur(5px);
-        color: black;
-        box-shadow: 0 0 25px rgba(197, 163, 88, 0.5);
+        color: var(--accent);
         border: 1px solid var(--accent);
+        box-shadow: 0 0 25px rgba(197, 163, 88, 0.5);
         font-family: "Montserrat", sans-serif;
         font-weight: 700;
         letter-spacing: 4px;
@@ -322,7 +322,7 @@
         transition: 0.4s ease;
       }
       .btn-gold:hover {
-        background: rgb(255, 200, 0);
+        background: rgba(255, 205, 97, 0.897);
         color: #000;
         box-shadow: 0 0 25px rgba(197, 163, 88, 0.5);
         transform: translateY(-3px);
@@ -769,7 +769,20 @@
           font-size: clamp(2.4rem, 9vw, 3.4rem);
           font-weight: 500;
           white-space: nowrap;
-          letter-spacing: -0.5px;
+          letter-spacing: -0.8px;
+        }
+        .hero-label {
+          font-size: 9px; /* Keeps it delicate */
+          letter-spacing: 3px; /* Drastically reduces the spacing to prevent awkward wrapping */
+          line-height: 2; /* Gives it breathing room if it does wrap on very small phones */
+          display: block;
+          padding: 1em 1em;
+        }
+        footer p {
+          letter-spacing: 2px !important; /* Overrides the 5px inline style */
+          font-size: 0.55rem !important; /* Shrinks slightly to help it fit */
+          line-height: 2 !important; /* Adds breathing room if it still wraps */
+          padding: 0 15px; /* Keeps it away from the screen edges */
         }
       }
       /* --- PREVIEW MODAL STYLES --- */
@@ -869,18 +882,12 @@
         }
       }
       .gallery-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-        margin: 50px 0;
+        grid-template-columns: 1fr !important;
+        gap: 20px;
       }
 
       .gallery-item {
-        position: relative;
-        height: 600px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        background: #000;
+        height: 450px;
       }
 
       .gallery-item img {
@@ -914,18 +921,41 @@
       }
 
       .gallery-overlay p {
-        font-family: "JetBrains Mono";
-        color: var(--accent);
-        font-size: 0.7rem;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 10px;
+        font-size: 0.6rem;
+        letter-spacing: 2px;
       }
 
       .gallery-overlay h4 {
-        font-family: "Cinzel";
-        font-size: 1.8rem;
-        color: #fff;
+        font-size: 1.4rem;
+      }
+      /* --- MOBILE AUTO HOVER --- */
+
+      .mobile-hover.bento-card {
+        transform: translateY(-10px);
+        border-color: var(--accent);
+        background: #1a1a1a;
+      }
+
+      .mobile-hover.gallery-item img {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+
+      .mobile-hover.stack-card .stack-content {
+        transform: translate(-10px, -10px);
+        border-color: var(--accent);
+      }
+
+      .mobile-hover.panel-stat {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .mobile-hover.glass {
+        opacity: 1 !important;
+        transform: scale(1.05) translateY(-10px) !important;
+        border-color: var(--accent);
+        background: #111;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       }
     </style>
   </head>
@@ -1242,9 +1272,29 @@
           pipeline.style.setProperty("--mouse-y", `${y}%`);
         });
       }
+      // Detect touch devices
+      const isTouch = window.matchMedia("(hover: none)").matches;
+
+      if (isTouch) {
+        const hoverItems = document.querySelectorAll(
+          ".bento-card, .gallery-item, .stack-card, .panel-stat, .glass",
+        );
+
+        const hoverObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("mobile-hover");
+              } else {
+                entry.target.classList.remove("mobile-hover");
+              }
+            });
+          },
+          { threshold: 0.6 },
+        );
+
+        hoverItems.forEach((item) => hoverObserver.observe(item));
+      }
     </script>
   </body>
 </html>
-
-
-
